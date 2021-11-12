@@ -19,7 +19,7 @@ public abstract class BaseFragment<T extends ViewBinding, V extends BaseViewMode
 
     protected abstract void setupView(View view);
 
-    protected abstract void subscribeToViewModel();
+    protected abstract void subscribeToViewModel(V viewModel);
 
     protected V viewModel;
     protected T binding;
@@ -40,6 +40,6 @@ public abstract class BaseFragment<T extends ViewBinding, V extends BaseViewMode
             return;
         }
         viewModel = new ViewModelProvider(this).get(getViewModelClass());
-        subscribeToViewModel();
+        subscribeToViewModel(viewModel);
     }
 }

@@ -10,13 +10,13 @@ import java.util.List;
 
 public class CoinListAdapter extends RecyclerView.Adapter<CoinItemHolder> {
 
-    private List<Selectable> itemList;
+    private List<? extends Selectable> itemList;
 
-    public CoinListAdapter(List<Selectable> itemList) {
+    public CoinListAdapter(List<? extends Selectable> itemList) {
         this.itemList = itemList;
     }
 
-    public void swapData(List<Selectable> itemList) {
+    public void swapData(List<? extends Selectable> itemList) {
         this.itemList = itemList;
         notifyDataSetChanged();
     }

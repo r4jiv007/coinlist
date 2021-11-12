@@ -23,7 +23,6 @@ public class PriceFragment extends BaseFragment<FragmentPriceBinding,PriceViewMo
     }
 
     @Override
-    protected void subscribeToViewModel() {
-
+    protected void subscribeToViewModel(PriceViewModel viewModel) {
     }
 }

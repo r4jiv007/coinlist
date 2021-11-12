@@ -5,4 +5,5 @@
   <dimen name="default_view_padding">16dp</dimen>
   <dimen name="card_elevation">10dp</dimen>
   <dimen name="comparison_top_margin">50dp</dimen>
+  <dimen name="list_item_text_size">20sp</dimen>
 </resources>

@@ -21,7 +21,7 @@ public abstract class BaseUseCase<REQ, RES> implements DisposableUseCase{
     }
 
     @Override
-    public void dispose() {
+    public void onDispose() {
         compositeDisposable.clear();
     }
 

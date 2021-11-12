@@ -10,9 +10,9 @@ import dagger.hilt.android.AndroidEntryPoint;
 import java.util.ArrayList;
 
 @AndroidEntryPoint
-public class CoinListFragment extends BaseFragment<FragmentCoinListBinding,CoinListViewModel> {
+public class CoinListFragment extends BaseFragment<FragmentCoinListBinding, CoinListViewModel> {
 
-    private CoinListAdapter listAdapter= new CoinListAdapter(new ArrayList<>());
+    private final CoinListAdapter listAdapter = new CoinListAdapter(new ArrayList<>());
 
     @Override
     protected FragmentCoinListBinding getBinding(LayoutInflater inflater) {
@@ -26,16 +26,29 @@ public class CoinListFragment extends BaseFragment<FragmentCoinListBinding,CoinL
 
     @Override
     protected void setupView(View view) {
-
+        initRecyclerView();
     }
 
-    private void initRecyclerView(){
+    private void initRecyclerView() {
         binding.rcvCoinList.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.rcvCoinList.setAdapter(listAdapter);
     }
 
     @Override
-    protected void subscribeToViewModel() {
-
+    protected void subscribeToViewModel(CoinListViewModel viewModel) {
+        viewModel.getCoinListData().observe(this, coinListUiState -> {
+            switch (coinListUiState.getStatus()) {
+                case CREATED:
+                case COMPLETE:
+                    break;
+                case LOADING:
+                    break;
+                case SUCCESS:
+                    listAdapter.swapData(coinListUiState.getData());
+                    break;
+                case ERROR:
+                    break;
+            }
+        });
     }
 }
