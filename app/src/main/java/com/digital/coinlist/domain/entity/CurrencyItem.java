@@ -2,11 +2,11 @@ package com.digital.coinlist.domain.entity;
 
 import com.digital.coinlist.ui.main.adapter.Selectable;
 
-public class SelectableCurrencyListItem implements Selectable {
+public class CurrencyItem implements Selectable {
 
     private final String currency;
 
-    public SelectableCurrencyListItem(String currency) {
+    public CurrencyItem(String currency) {
         this.currency = currency;
     }
 

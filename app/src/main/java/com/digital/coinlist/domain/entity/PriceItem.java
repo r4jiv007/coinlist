@@ -4,14 +4,14 @@ public class PriceItem {
 
     private final String cryptoCurrency;
     private final String currency;
-    private final double price;
-    private final double marketCap;
-    private final double _24hVol;
-    private final double _24hChange;
-    private final long lastUpdated;
+    private final String price;
+    private final String marketCap;
+    private final String _24hVol;
+    private final String _24hChange;
+    private final String lastUpdated;
 
-    public PriceItem(String cryptoCurrency, String currency, double price, double marketCap,
-        double _24hVol, double _24hChange, long lastUpdated) {
+    public PriceItem(String cryptoCurrency, String currency, String price, String marketCap,
+        String _24hVol, String _24hChange, String lastUpdated) {
         this.cryptoCurrency = cryptoCurrency;
         this.currency = currency;
         this.price = price;
@@ -29,23 +29,23 @@ public class PriceItem {
         return currency;
     }
 
-    public double getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public double getMarketCap() {
+    public String getMarketCap() {
         return marketCap;
     }
 
-    public double get_24hVol() {
+    public String get_24hVol() {
         return _24hVol;
     }
 
-    public double get_24hChange() {
+    public String get_24hChange() {
         return _24hChange;
     }
 
-    public long getLastUpdated() {
+    public String getLastUpdated() {
         return lastUpdated;
     }
 }

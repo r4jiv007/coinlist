@@ -1,5 +1,7 @@
 package com.digital.coinlist.ui.base;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +14,7 @@ import androidx.navigation.NavBackStackEntry;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.viewbinding.ViewBinding;
-import dagger.hilt.android.internal.lifecycle.HiltViewModelFactory;
+import com.digital.coinlist.R;
 
 public abstract class BaseFragment<T extends ViewBinding, V extends BaseViewModel> extends
     Fragment {
@@ -51,11 +53,10 @@ public abstract class BaseFragment<T extends ViewBinding, V extends BaseViewMode
             NavBackStackEntry backStackEntry = findNavController()
                 .getBackStackEntry(navGraphIdForViewModel());
 
-            viewModel =  new ViewModelProvider(
+            viewModel = new ViewModelProvider(
                 backStackEntry,
                 getDefaultViewModelProviderFactory()).get(getViewModelClass()
             );
-//             viewModel=   new ViewModelProvider(backStackEntry).get(getViewModelClass());
         } else {
             viewModel = new ViewModelProvider(this).get(getViewModelClass());
         }
@@ -64,5 +65,37 @@ public abstract class BaseFragment<T extends ViewBinding, V extends BaseViewMode
 
     protected NavController findNavController() {
         return NavHostFragment.findNavController(this);
+    }
+
+
+    private AlertDialog progressDialog = null;
+
+    protected void showProgress() {
+        if (progressDialog == null) {
+            progressDialog = createProgressLoading(requireContext());
+
+        }
+        if(progressDialog!=null && !progressDialog.isShowing()) {
+            progressDialog.show();
+        }
+
+    }
+
+    protected void hideProgress() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
+    }
+
+    private AlertDialog createProgressLoading(Context context) {
+        if (context == null) {
+            return null;
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        View view = LayoutInflater.from(context).inflate(R.layout.progress_dialog, null);
+        builder.setView(view);
+        builder.setCancelable(false);
+        return builder.create();
     }
 }

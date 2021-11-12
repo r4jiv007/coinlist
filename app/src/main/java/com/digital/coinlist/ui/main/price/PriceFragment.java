@@ -37,13 +37,17 @@ public class PriceFragment extends BaseFragment<FragmentPriceBinding, CoinViewMo
     @Override
     protected void setupView(View view) {
         binding.cvCrypto.setOnClickListener(view1 -> {
-            Navigation.findNavController(view1).navigate(PriceFragmentDirections.gotoCoinListFragment(
-                CurrencyType.CRYPTO_CURRENCY));
+            Navigation.findNavController(view1)
+                .navigate(PriceFragmentDirections.gotoCoinListFragment(
+                    CurrencyType.CRYPTO_CURRENCY));
         });
         binding.cvCurrency.setOnClickListener(view1 -> {
-            Navigation.findNavController(view1).navigate(PriceFragmentDirections.gotoCoinListFragment(
-                CurrencyType.VS_CURRENCY));
+            Navigation.findNavController(view1)
+                .navigate(PriceFragmentDirections.gotoCoinListFragment(
+                    CurrencyType.VS_CURRENCY));
         });
+
+        binding.swipeLayout.setOnRefreshListener(() -> viewModel.refreshPrice());
     }
 
     @Override
@@ -55,22 +59,43 @@ public class PriceFragment extends BaseFragment<FragmentPriceBinding, CoinViewMo
                     // to nothing
                     break;
                 case SUCCESS:
-                    assert priceItemUiState.getData() != null;
-                    handlePriceItem(priceItemUiState.getData());
+                    hideProgress();
+                    if (priceItemUiState.getData() != null) {
+                        handlePriceItem(priceItemUiState.getData());
+                    }
                     break;
                 case ERROR:
+                    hideProgress();
                     break;
                 case LOADING:
+                    showProgress();
                     break;
             }
         });
+
+        viewModel.getCombinedLiveData().observe(this,
+            pair -> {
+                if (pair.first != null) {
+                    binding.tvCrypto.setText(pair.first.getName());
+                }
+                if (pair.second != null) {
+                    binding.tvCurrency.setText(pair.second.displayName());
+                }
+                viewModel.comparePrice(true, true);
+            });
     }
 
     private void handlePriceItem(PriceItem item) {
-        binding.tvPriceVal.setText(String.valueOf(item.getPrice()));
-        binding.tvMarketCapVal.setText(String.valueOf(item.getMarketCap()));
-        binding.tvVolumeVal.setText(String.valueOf(item.get_24hVol()));
-        binding.tvChangeVal.setText(String.valueOf(item.get_24hChange()));
-        binding.tvUpdateTimeVal.setText(String.valueOf(item.getLastUpdated()));
+        binding.tvPriceVal.setText(item.getPrice());
+        binding.tvMarketCapVal.setText(item.getMarketCap());
+        binding.tvVolumeVal.setText(item.get_24hVol());
+        binding.tvChangeVal.setText(item.get_24hChange());
+        binding.tvUpdateTimeVal.setText(item.getLastUpdated());
+    }
+
+    @Override
+    protected void hideProgress() {
+        super.hideProgress();
+        binding.swipeLayout.setRefreshing(false);
     }
 }

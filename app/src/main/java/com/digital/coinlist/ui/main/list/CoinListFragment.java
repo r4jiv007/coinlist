@@ -70,11 +70,17 @@ public class CoinListFragment extends
                 case COMPLETE:
                     break;
                 case LOADING:
+                    binding.rcvCoinList.setVisibility(View.GONE);
+                    showProgress();
                     break;
                 case SUCCESS:
+                    binding.rcvCoinList.setVisibility(View.VISIBLE);
+                    hideProgress();
                     listAdapter.swapData(coinListUiState.getData());
                     break;
                 case ERROR:
+                    hideProgress();
+                    binding.rcvCoinList.setVisibility(View.GONE);
                     break;
             }
         });

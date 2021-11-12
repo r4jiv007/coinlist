@@ -5,8 +5,8 @@ import com.digital.coinlist.data.network.api.CoinGeckoApiService;
 import com.digital.coinlist.data.network.entity.PriceComparisonApiReq;
 import com.digital.coinlist.domain.entity.PriceComparisonReq;
 import com.digital.coinlist.domain.entity.PriceItem;
-import com.digital.coinlist.domain.entity.SelectableCoinListItem;
-import com.digital.coinlist.domain.entity.SelectableCurrencyListItem;
+import com.digital.coinlist.domain.entity.CoinItem;
+import com.digital.coinlist.domain.entity.CurrencyItem;
 import com.digital.coinlist.domain.repo.CoinRepo;
 import io.reactivex.rxjava3.core.Single;
 import java.util.List;
@@ -24,12 +24,12 @@ public class CoinRepoImpl implements CoinRepo {
     }
 
     @Override
-    public Single<List<SelectableCoinListItem>> getCoinList() {
+    public Single<List<CoinItem>> getCoinList() {
         return apiService.getCoinList().map(mapper::getSelectableCoinList);
     }
 
     @Override
-    public Single<List<SelectableCurrencyListItem>> getCurrencyList() {
+    public Single<List<CurrencyItem>> getCurrencyList() {
         return apiService.getSupportedCurrencies().map(mapper::getSelectableCurrencyList);
     }
 

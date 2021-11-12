@@ -1,6 +1,6 @@
 package com.digital.coinlist.domain.usecase;
 
-import com.digital.coinlist.domain.entity.SelectableCurrencyListItem;
+import com.digital.coinlist.domain.entity.CurrencyItem;
 import com.digital.coinlist.domain.repo.CoinRepo;
 import com.digital.coinlist.util.rx.SchedulerProvider;
 import io.reactivex.rxjava3.core.Single;
@@ -8,7 +8,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import java.util.List;
 import javax.inject.Inject;
 
-public class GetCurrencyListUseCase extends BaseUseCase<Void, List<SelectableCurrencyListItem>> {
+public class GetCurrencyListUseCase extends BaseUseCase<Void, List<CurrencyItem>> {
 
     private final CoinRepo coinRepo;
 
@@ -22,7 +22,7 @@ public class GetCurrencyListUseCase extends BaseUseCase<Void, List<SelectableCur
     }
 
     @Override
-    Single<List<SelectableCurrencyListItem>> buildUseCaseSingle(Void unused) {
+    Single<List<CurrencyItem>> buildUseCaseSingle(Void unused) {
         return coinRepo.getCurrencyList();
     }
 }

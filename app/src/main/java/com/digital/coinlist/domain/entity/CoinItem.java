@@ -2,7 +2,7 @@ package com.digital.coinlist.domain.entity;
 
 import com.digital.coinlist.ui.main.adapter.Selectable;
 
-public class SelectableCoinListItem implements Selectable {
+public class CoinItem implements Selectable {
 
     private final String symbol;
 
@@ -10,7 +10,7 @@ public class SelectableCoinListItem implements Selectable {
 
     private final String id;
 
-    public SelectableCoinListItem(String symbol, String name, String id) {
+    public CoinItem(String symbol, String name, String id) {
         this.symbol = symbol;
         this.name = name;
         this.id = id;

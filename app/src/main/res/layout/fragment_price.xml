@@ -1,214 +1,220 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/swipeLayout"
   android:layout_width="match_parent"
   android:layout_height="match_parent">
 
-  <LinearLayout
+  <ScrollView
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:clipToPadding="false"
-    android:orientation="vertical"
-    android:padding="@dimen/default_view_padding">
+    android:layout_height="match_parent">
 
-    <androidx.cardview.widget.CardView
-      android:id="@+id/cvCrypto"
+    <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:elevation="@dimen/card_elevation"
-      android:orientation="horizontal">
+      android:clipToPadding="false"
+      android:orientation="vertical"
+      android:padding="@dimen/default_view_padding">
+
+      <androidx.cardview.widget.CardView
+        android:id="@+id/cvCrypto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/card_elevation"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/tvCrypto"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:padding="@dimen/default_view_padding"
+          android:text="@string/select_crypto"
+          android:textStyle="bold" />
+      </androidx.cardview.widget.CardView>
 
       <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvCrypto"
+        android:id="@+id/tvVs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/default_view_padding"
-        android:text="@string/select_crypto"
-        android:textStyle="bold" />
-    </androidx.cardview.widget.CardView>
-
-    <androidx.appcompat.widget.AppCompatTextView
-      android:id="@+id/tvVs"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="@dimen/default_view_margin"
-      android:layout_marginBottom="@dimen/default_view_margin"
-      android:text="@string/vs"
-      android:textStyle="bold" />
-
-    <androidx.cardview.widget.CardView
-      android:id="@+id/cvCurrency"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:elevation="@dimen/card_elevation"
-      android:orientation="horizontal">
-
-      <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvCurrency"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/default_view_padding"
-        android:text="@string/select_currency"
+        android:layout_marginTop="@dimen/default_view_margin"
+        android:layout_marginBottom="@dimen/default_view_margin"
+        android:text="@string/vs"
         android:textStyle="bold" />
 
-    </androidx.cardview.widget.CardView>
-
-
-    <androidx.cardview.widget.CardView
-      android:id="@+id/cvComparison"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="@dimen/comparison_top_margin"
-      android:elevation="@dimen/card_elevation"
-      android:orientation="horizontal"
-      android:padding="@dimen/default_view_padding"
-      android:paddingBottom="@dimen/default_view_padding">
-
-      <LinearLayout
+      <androidx.cardview.widget.CardView
+        android:id="@+id/cvCurrency"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:elevation="@dimen/card_elevation"
+        android:orientation="horizontal">
 
-        <LinearLayout
-          android:id="@+id/llPrice"
+        <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/tvCurrency"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:orientation="horizontal"
-          android:weightSum="2">
+          android:padding="@dimen/default_view_padding"
+          android:text="@string/select_currency"
+          android:textStyle="bold" />
 
-          <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvPricelbl"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight=".8"
-            android:padding="@dimen/default_text_padding"
-            android:text="@string/price" />
+      </androidx.cardview.widget.CardView>
 
-          <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvPriceVal"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.2"
-            android:padding="@dimen/default_text_padding"
-            android:textStyle="bold" />
-        </LinearLayout>
 
-        <View
-          android:layout_width="match_parent"
-          android:layout_height="1dp"
-          android:background="@android:color/darker_gray" />
+      <androidx.cardview.widget.CardView
+        android:id="@+id/cvComparison"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/comparison_top_margin"
+        android:elevation="@dimen/card_elevation"
+        android:orientation="horizontal"
+        android:padding="@dimen/default_view_padding"
+        android:paddingBottom="@dimen/default_view_padding">
 
         <LinearLayout
-          android:id="@+id/llMarketCap"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:orientation="horizontal"
-          android:weightSum="2">
+          android:orientation="vertical">
 
-          <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvMarketCaplbl"
-            android:layout_width="0dp"
+          <LinearLayout
+            android:id="@+id/llPrice"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight=".8"
-            android:padding="@dimen/default_text_padding"
-            android:text="@string/market_cap" />
+            android:orientation="horizontal"
+            android:weightSum="2">
 
-          <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvMarketCapVal"
-            android:layout_width="0dp"
+            <androidx.appcompat.widget.AppCompatTextView
+              android:id="@+id/tvPricelbl"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight=".8"
+              android:padding="@dimen/default_text_padding"
+              android:text="@string/price" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+              android:id="@+id/tvPriceVal"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1.2"
+              android:padding="@dimen/default_text_padding"
+              android:textStyle="bold" />
+          </LinearLayout>
+
+          <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
+
+          <LinearLayout
+            android:id="@+id/llMarketCap"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1.2"
-            android:padding="@dimen/default_text_padding"
-            android:textStyle="bold" />
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <androidx.appcompat.widget.AppCompatTextView
+              android:id="@+id/tvMarketCaplbl"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight=".8"
+              android:padding="@dimen/default_text_padding"
+              android:text="@string/market_cap" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+              android:id="@+id/tvMarketCapVal"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1.2"
+              android:padding="@dimen/default_text_padding"
+              android:textStyle="bold" />
+          </LinearLayout>
+
+          <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
+
+          <LinearLayout
+            android:id="@+id/ll24hrVol"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <androidx.appcompat.widget.AppCompatTextView
+              android:id="@+id/tvVolumelbl"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight=".8"
+              android:padding="@dimen/default_text_padding"
+              android:text="@string/last_24hr_vol" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+              android:id="@+id/tvVolumeVal"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1.3"
+              android:padding="@dimen/default_text_padding"
+              android:textStyle="bold" />
+          </LinearLayout>
+
+          <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
+
+          <LinearLayout
+            android:id="@+id/ll24hrChange"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <androidx.appcompat.widget.AppCompatTextView
+              android:id="@+id/tvChangelbl"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight=".8"
+              android:padding="@dimen/default_text_padding"
+              android:text="@string/last_24hr_change" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+              android:id="@+id/tvChangeVal"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1.2"
+              android:padding="@dimen/default_text_padding"
+              android:textStyle="bold" />
+          </LinearLayout>
+
+          <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
+
+          <LinearLayout
+            android:id="@+id/llLastUpdateTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <androidx.appcompat.widget.AppCompatTextView
+              android:id="@+id/tvUpdateTimelbl"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight=".8"
+              android:padding="@dimen/default_text_padding"
+              android:text="@string/last_update_time" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+              android:id="@+id/tvUpdateTimeVal"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1.2"
+              android:padding="@dimen/default_text_padding"
+              android:textStyle="bold" />
+          </LinearLayout>
         </LinearLayout>
+      </androidx.cardview.widget.CardView>
 
-        <View
-          android:layout_width="match_parent"
-          android:layout_height="1dp"
-          android:background="@android:color/darker_gray" />
-
-        <LinearLayout
-          android:id="@+id/ll24hrVol"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:orientation="horizontal"
-          android:weightSum="2">
-
-          <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvVolumelbl"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight=".8"
-            android:padding="@dimen/default_text_padding"
-            android:text="@string/last_24hr_vol" />
-
-          <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvVolumeVal"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.3"
-            android:padding="@dimen/default_text_padding"
-            android:textStyle="bold" />
-        </LinearLayout>
-
-        <View
-          android:layout_width="match_parent"
-          android:layout_height="1dp"
-          android:background="@android:color/darker_gray" />
-
-        <LinearLayout
-          android:id="@+id/ll24hrChange"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:orientation="horizontal"
-          android:weightSum="2">
-
-          <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvChangelbl"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight=".8"
-            android:padding="@dimen/default_text_padding"
-            android:text="@string/last_24hr_change" />
-
-          <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvChangeVal"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.2"
-            android:padding="@dimen/default_text_padding"
-            android:textStyle="bold" />
-        </LinearLayout>
-
-        <View
-          android:layout_width="match_parent"
-          android:layout_height="1dp"
-          android:background="@android:color/darker_gray" />
-
-        <LinearLayout
-          android:id="@+id/llLastUpdateTime"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:orientation="horizontal"
-          android:weightSum="2">
-
-          <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvUpdateTimelbl"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight=".8"
-            android:padding="@dimen/default_text_padding"
-            android:text="@string/last_update_time" />
-
-          <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvUpdateTimeVal"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.2"
-            android:padding="@dimen/default_text_padding"
-            android:textStyle="bold" />
-        </LinearLayout>
-      </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-  </LinearLayout>
-</ScrollView>
+    </LinearLayout>
+  </ScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
