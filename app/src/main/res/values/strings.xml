@@ -7,4 +7,6 @@
   <string name="last_24hr_change">Last 24-hour Change</string>
   <string name="last_update_time">Last update time</string>
   <string name="vs">VS</string>
+  <string name="select_crypto">Select crypto currency</string>
+  <string name="select_currency">Select currency to compare</string>
 </resources>
