@@ -1,3 +1,10 @@
 <resources>
   <string name="app_name">CoinList</string>
+
+  <string name="price">Price</string>
+  <string name="market_cap">Market cap</string>
+  <string name="last_24hr_vol">Last 24-hour Volume</string>
+  <string name="last_24hr_change">Last 24-hour Volume</string>
+  <string name="last_update_time">Last update time</string>
+  <string name="vs">VS</string>
 </resources>
