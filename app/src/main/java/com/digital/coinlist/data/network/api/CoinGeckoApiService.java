@@ -5,6 +5,7 @@ import io.reactivex.rxjava3.core.Single;
 import java.util.List;
 import java.util.Map;
 import retrofit2.http.GET;
+import retrofit2.http.Query;
 
 public interface CoinGeckoApiService {
 
@@ -15,5 +16,13 @@ public interface CoinGeckoApiService {
     Single<List<String>> getSupportedCurrencies();
 
     @GET("simple/price")
-    Single<Map<String, Map<String, Double>>> getPriceDetail();
+    Single<Map<String, Map<String, Double>>> getPriceDetail(
+        @Query("ids") String cryptoId,
+        @Query("vs_currencies") String vsCurrency,
+        @Query("include_market_cap") Boolean includeMarketCap,
+        @Query("include_24hr_vol") Boolean include24hrVolume,
+        @Query("include_24hr_change") Boolean include24hrChange,
+        @Query("include_last_updated_at") Boolean includeLastUpdateAt
+    );
+
 }

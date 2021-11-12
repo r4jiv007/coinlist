@@ -1,9 +1,9 @@
 package com.digital.coinlist.domain.entity;
 
 import com.digital.coinlist.ui.main.adapter.Selectable;
-import com.google.gson.annotations.SerializedName;
 
 public class SelectableCoinListItem implements Selectable {
+
     private final String symbol;
 
     private final String name;
@@ -16,15 +16,15 @@ public class SelectableCoinListItem implements Selectable {
         this.id = id;
     }
 
-    public String getSymbol(){
+    public String getSymbol() {
         return symbol;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public String getId(){
+    public String getId() {
         return id;
     }
 

@@ -22,13 +22,15 @@ public abstract class BaseFragment<T extends ViewBinding, V extends BaseViewMode
     protected abstract void subscribeToViewModel();
 
     protected V viewModel;
+    protected T binding;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
         @Nullable Bundle savedInstanceState) {
         createViewModel();
-        View view = getBinding(getLayoutInflater()).getRoot();
+        binding = getBinding(getLayoutInflater());
+        View view = binding.getRoot();
         setupView(view);
         return view;
     }

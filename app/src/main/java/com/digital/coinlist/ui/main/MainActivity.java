@@ -3,7 +3,9 @@ package com.digital.coinlist.ui.main;
 import android.view.LayoutInflater;
 import com.digital.coinlist.databinding.ActivityMainBinding;
 import com.digital.coinlist.ui.base.BaseActivity;
+import dagger.hilt.android.AndroidEntryPoint;
 
+@AndroidEntryPoint
 public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
     @Override
