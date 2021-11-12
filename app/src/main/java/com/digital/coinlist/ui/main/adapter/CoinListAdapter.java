@@ -1,19 +1,24 @@
 package com.digital.coinlist.ui.main.adapter;
 
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.digital.coinlist.databinding.CoinListItemLayoutBinding;
-import com.digital.coinlist.ui.main.adapter.CoinListAdapter.CoinItemHolder;
 import java.util.List;
 
-public class CoinListAdapter extends RecyclerView.Adapter<CoinItemHolder> {
+public class CoinListAdapter extends RecyclerView.Adapter<CoinItemHolder> implements
+    OnClickListener {
 
     private List<? extends Selectable> itemList;
+    private ItemSelectionListener itemSelectionListener;
 
-    public CoinListAdapter(List<? extends Selectable> itemList) {
+    public CoinListAdapter(List<? extends Selectable> itemList,
+        ItemSelectionListener itemSelectionListener) {
         this.itemList = itemList;
+        this.itemSelectionListener = itemSelectionListener;
     }
 
     public void swapData(List<? extends Selectable> itemList) {
@@ -24,11 +29,13 @@ public class CoinListAdapter extends RecyclerView.Adapter<CoinItemHolder> {
     @NonNull
     @Override
     public CoinItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new CoinItemHolder(CoinListItemLayoutBinding.inflate(
+        CoinItemHolder holder = new CoinItemHolder(CoinListItemLayoutBinding.inflate(
             LayoutInflater.from(parent.getContext()),
             parent,
             false
         ));
+        holder.itemView.setOnClickListener(this);
+        return holder;
     }
 
     @Override
@@ -42,17 +49,9 @@ public class CoinListAdapter extends RecyclerView.Adapter<CoinItemHolder> {
         return itemList.size();
     }
 
-    protected static class CoinItemHolder extends RecyclerView.ViewHolder {
-
-        private final CoinListItemLayoutBinding binding;
-
-        public CoinItemHolder(CoinListItemLayoutBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
-        }
-
-        public void bind(Selectable item) {
-            binding.tvItemName.setText(item.displayName());
-        }
+    @Override
+    public void onClick(View view) {
+        int pos = (int) view.getTag();
+        itemSelectionListener.onItemSelected(itemList.get(pos));
     }
 }

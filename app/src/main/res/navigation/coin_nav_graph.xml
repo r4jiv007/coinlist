@@ -3,7 +3,7 @@
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:id="@+id/coin_nav_graph"
-  app:startDestination="@id/coinListFragment">
+  app:startDestination="@id/priceFragment">
 
   <fragment
     android:id="@+id/priceFragment"
@@ -22,5 +22,10 @@
     android:name="com.digital.coinlist.ui.main.list.CoinListFragment"
     android:label="CoinListFragment"
     tools:layout="@layout/fragment_coin_list"
-    />
+    >
+
+    <argument
+      android:name="currencnyType"
+      app:argType="com.digital.coinlist.ui.main.list.CurrencyType" />
+  </fragment>
 </navigation>

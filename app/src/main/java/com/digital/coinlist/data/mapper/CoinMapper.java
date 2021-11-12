@@ -70,22 +70,26 @@ public class CoinMapper {
         double price = 0, marketCap = 0, _24hrVol = 0, _24hrChange = 0;
         long lastUpdateAT = 0;
 
-        if (comparisonMap.containsKey(req.getCryptoId())) {
-            price = comparisonMap.get(req.getCryptoId());
+        final String marketCapKey = String.format("%s%s", req.getCurrencyId(), MARKET_CAP);
+        final String volumeKey = String.format("%s%s", req.getCurrencyId(), _24HR_VOL);
+        final String changeKey = String.format("%s%s", req.getCurrencyId(), _24HR_CHANGE);
+        final String lastUpdateKey = String.format("%s%s", req.getCurrencyId(), LAST_UPDATED_AT);
+
+        if (comparisonMap.containsKey(req.getCurrencyId())) {
+            price = comparisonMap.get(req.getCurrencyId());
         }
 
-        if (comparisonMap.containsKey(String.format("%s%s", req.getCryptoId(), MARKET_CAP))) {
-            marketCap = comparisonMap.get(String.format("%s%s", req.getCryptoId(), MARKET_CAP));
+        if (comparisonMap.containsKey(marketCapKey)) {
+            marketCap = comparisonMap.get(marketCapKey);
         }
-        if (comparisonMap.containsKey(String.format("%s%s", req.getCryptoId(), _24HR_VOL))) {
-            _24hrVol = comparisonMap.get(String.format("%s%s", req.getCryptoId(), _24HR_VOL));
+        if (comparisonMap.containsKey(volumeKey)) {
+            _24hrVol = comparisonMap.get(volumeKey);
         }
-        if (comparisonMap.containsKey(String.format("%s%s", req.getCryptoId(), _24HR_CHANGE))) {
-            _24hrChange = comparisonMap.get(String.format("%s%s", req.getCryptoId(), _24HR_CHANGE));
+        if (comparisonMap.containsKey(changeKey)) {
+            _24hrChange = comparisonMap.get(changeKey);
         }
-        if (comparisonMap.containsKey(String.format("%s%s", req.getCryptoId(), LAST_UPDATED_AT))) {
-            lastUpdateAT = comparisonMap.get(
-                String.format("%s%s", req.getCryptoId(), LAST_UPDATED_AT)).longValue();
+        if (comparisonMap.containsKey(lastUpdateKey)) {
+            lastUpdateAT = comparisonMap.get(lastUpdateKey).longValue();
         }
         return new PriceItem(
             req.getCryptoId()
