@@ -1,4 +1,6 @@
-# coinlist
+# Coinlist
+Compare crypto currencies with other currencies.
+
 
 
 # Setup and Run 
@@ -17,6 +19,7 @@ min supported sdk version is 21
 - Dagger Hilt
 - JetPack Navigation
 - Room
+- Api from [Coingecko](https://www.coingecko.com/api/documentations/v3)
 
 
 # Code Structure
@@ -25,19 +28,29 @@ I have followed clean architecture with MVVM.
 This  project has data, domain and ui layers.
 
 ## Base Structure
-<img src="https://github.com/r4jiv007/coinlist/blob/main/imgs/base.png" width=30% height=30%>
+<img src="https://github.com/r4jiv007/coinlist/blob/main/imgs/base.png" width=20% height=20%>
 
-## Data Layer
-<img src="https://github.com/r4jiv007/coinlist/blob/main/imgs/data.png" width=30% height=30%>
+<table>
+  <tr>
+    <td>Data Layer</td>
+     <td>Domain Layer</td>
+     <td>DI Layer</td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/r4jiv007/coinlist/blob/main/imgs/data.png" width=50% height=50%></td>
+    <td><img src="https://github.com/r4jiv007/coinlist/blob/main/imgs/domain.png" width=50% height=50%></td>
+    <td><img src="https://github.com/r4jiv007/coinlist/blob/main/imgs/di.png" width=50% height=50%></td>
+  </tr>
+ </table>
+ <table>
+  <tr>
+    <td>UI Layer</td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/r4jiv007/coinlist/blob/main/imgs/ui.png" width=50% height=50%></td>
+  </tr>
+ </table>
 
-## Domain Layer
-<img src="https://github.com/r4jiv007/coinlist/blob/main/imgs/domain.png" width=30% height=30%>
-
-## DI Layer
-<img src="https://github.com/r4jiv007/coinlist/blob/main/imgs/di.png" width=30% height=30%>
-
-## UI Layer
-<img src="https://github.com/r4jiv007/coinlist/blob/main/imgs/ui.png" width=30% height=30%>
 
 # Functionality
 
@@ -105,26 +118,29 @@ for currencies
 - this branch has no database implementation and api is called everytime the list of crytpo_coin  or currencies are required.
 - in-memory filteration is provided using `Filterable` interface provided by andorid and its implmented inside `CoinListAdapter`
 
-
-
-  
-
 # App ScreenShot
 
-## Initial-Screen
 
-<img src="https://github.com/r4jiv007/coinlist/blob/main/imgs/1.jpeg" width=20% height=20%>
-
-## Select Crypto Currency
-
-<img src="https://github.com/r4jiv007/coinlist/blob/main/imgs/2.jpeg" width=20% height=20%>
-
-## Select VS_Currency to compare
-
-<img src="https://github.com/r4jiv007/coinlist/blob/main/imgs/4.jpeg" width=20% height=20%>
-
-## Check Comparison Result
-
-<img src="https://github.com/r4jiv007/coinlist/blob/main/imgs/5.jpeg" width=20% height=20%>
+<table>
+  <tr>
+    <td>Initial-Screen</td>
+     <td>Select Crypto Currency</td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/r4jiv007/coinlist/blob/main/imgs/1.jpeg" width=50% height=50%></td>
+    <td><img src="https://github.com/r4jiv007/coinlist/blob/main/imgs/2.jpeg" width=50% height=50%></td>
+  </tr>
+ </table>
+ 
+<table>
+  <tr>
+    <td>Select VS_Currency to compare</td>
+     <td>Check Comparison Result</td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/r4jiv007/coinlist/blob/main/imgs/4.jpeg" width=50% height=50%></td>
+    <td><img src="https://github.com/r4jiv007/coinlist/blob/main/imgs/5.jpeg" width=50% height=50%></td>
+  </tr>
+ </table>
 
 
