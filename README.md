@@ -60,6 +60,7 @@ This  project has data, domain and ui layers.
 
 ## App internals
 - Repo has two branches [feature/sharedViewModel](https://github.com/r4jiv007/coinlist/tree/feature/sharedViewModel) and [main](https://github.com/r4jiv007/coinlist/tree/main)
+- `CoinMapper` contains all the logic for converting api response and database entities to respective domain entities.
 
 ### `main`
 - `main` branch has more detailed implementation, room is used to cache the data locally.
