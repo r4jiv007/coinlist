@@ -3,10 +3,11 @@ package com.digital.coinlist.ui.base;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewbinding.ViewBinding;
 
-public abstract class BaseActivity<T extends ViewBinding> extends FragmentActivity {
+public abstract class BaseActivity<T extends ViewBinding> extends AppCompatActivity {
 
     protected abstract T getBinding(LayoutInflater inflater);
 

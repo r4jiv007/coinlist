@@ -1,6 +1,6 @@
 package com.digital.coinlist.ui.main.adapter;
 
-public interface ItemSelectionListener {
+public interface OnItemSelectionListener {
 
     void onItemSelected(Selectable item);
 }
