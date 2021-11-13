@@ -46,8 +46,11 @@ public class PriceFragment extends BaseFragment<FragmentPriceBinding, CoinViewMo
                 .navigate(PriceFragmentDirections.gotoCoinListFragment(
                     CurrencyType.VS_CURRENCY));
         });
-
         binding.swipeLayout.setOnRefreshListener(() -> viewModel.refreshPrice());
+
+        if(getActivity()!=null){
+            getActivity().setTitle(R.string.compare);
+        }
     }
 
     @Override

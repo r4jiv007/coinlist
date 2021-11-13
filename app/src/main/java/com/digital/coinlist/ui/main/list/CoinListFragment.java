@@ -71,7 +71,22 @@ public class CoinListFragment extends
 
     @Override
     protected void setupView(View view) {
+        setTitle();
         initRecyclerView();
+    }
+
+    private void setTitle() {
+        int titleId = -1;
+        CurrencyType currencyType = CoinListFragmentArgs.fromBundle(getArguments())
+            .getCurrencnyType();
+        if (currencyType==CurrencyType.CRYPTO_CURRENCY){
+            titleId = R.string.select_crypto;
+        }else{
+            titleId = R.string.select_currency;
+        }
+        if(getActivity()!=null){
+            getActivity().setTitle(titleId);
+        }
     }
 
     private void loadData() {

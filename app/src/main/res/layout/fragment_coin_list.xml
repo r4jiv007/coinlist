@@ -7,7 +7,11 @@
   <androidx.appcompat.widget.AppCompatEditText
     android:id="@+id/etItemSearch"
     android:layout_width="match_parent"
-    android:layout_height="50dp" />
+    android:layout_height="@dimen/search_view_height"
+    android:layout_margin="@dimen/default_view_margin"
+    android:hint="@string/type_to_search"
+    android:padding="@dimen/default_view_padding"
+    android:textSize="@dimen/search_view_text_size" />
 
   <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/rcvCoinList"
