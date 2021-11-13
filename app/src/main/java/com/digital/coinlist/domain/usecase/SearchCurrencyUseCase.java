@@ -8,12 +8,12 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import java.util.List;
 import javax.inject.Inject;
 
-public class GetCurrencyListUseCase extends BaseUseCase<Boolean, List<CurrencyItem>> {
+public class SearchCurrencyUseCase extends BaseUseCase<String, List<CurrencyItem>> {
 
     private final CoinRepo coinRepo;
 
     @Inject
-    public GetCurrencyListUseCase(
+    public SearchCurrencyUseCase(
         CoinRepo coinRepo,
         SchedulerProvider schedulerProvider,
         CompositeDisposable compositeDisposable) {
@@ -22,7 +22,7 @@ public class GetCurrencyListUseCase extends BaseUseCase<Boolean, List<CurrencyIt
     }
 
     @Override
-    Single<List<CurrencyItem>> buildUseCaseSingle(Boolean forceRemote) {
-        return coinRepo.getCurrencyList(forceRemote);
+    Single<List<CurrencyItem>> buildUseCaseSingle(String req) {
+        return coinRepo.searchCurrencyList(req);
     }
 }

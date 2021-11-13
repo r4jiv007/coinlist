@@ -1,5 +1,7 @@
 package com.digital.coinlist.data.mapper;
 
+import com.digital.coinlist.data.database.CoinDbEntity;
+import com.digital.coinlist.data.database.CurrencyDbEntity;
 import com.digital.coinlist.data.network.entity.CoinListItem;
 import com.digital.coinlist.data.network.entity.PriceComparisonApiReq;
 import com.digital.coinlist.domain.entity.CoinItem;
@@ -38,29 +40,77 @@ public class CoinMapper {
 
     }
 
-    private CoinItem getSelectableCoinListItem(CoinListItem listItem) {
+    private CoinItem getCoinItem(CoinListItem listItem) {
         return new CoinItem(listItem.getSymbol(), listItem.getName(),
             listItem.getId());
     }
 
-    public List<CoinItem> getSelectableCoinList(List<CoinListItem> list) {
-        List<CoinItem> selectableList = new ArrayList<>();
-        for (CoinListItem item : list) {
-            selectableList.add(getSelectableCoinListItem(item));
-        }
-        return selectableList;
+    private CoinItem getCoinItem(CoinDbEntity coinDbEntity) {
+        return new CoinItem(coinDbEntity.getSymbol(), coinDbEntity.getName(), coinDbEntity.getId());
     }
 
-    private CurrencyItem getSelectableCurrencyListItem(String currency) {
+    private CoinDbEntity getCoinDbItem(CoinListItem item) {
+        return new CoinDbEntity(item.getSymbol(), item.getName(), item.getId());
+    }
+
+    public List<CoinItem> getCoinItemListFromApi(List<CoinListItem> list) {
+        List<CoinItem> coinItemList = new ArrayList<>();
+        for (CoinListItem item : list) {
+            coinItemList.add(getCoinItem(item));
+        }
+        return coinItemList;
+    }
+
+    public List<CoinItem> getCoinItemListFromDb(List<CoinDbEntity> dbEntityList) {
+        List<CoinItem> coinItemList = new ArrayList<>();
+        for (CoinDbEntity item : dbEntityList) {
+            coinItemList.add(getCoinItem(item));
+        }
+        return coinItemList;
+    }
+
+    public List<CoinDbEntity> getCoinDbItem(List<CoinListItem> itemList) {
+        List<CoinDbEntity> dbItemList = new ArrayList<>();
+        for (CoinListItem item : itemList) {
+            dbItemList.add(getCoinDbItem(item));
+        }
+        return dbItemList;
+    }
+
+    private CurrencyItem getCurrencyItem(String currency) {
         return new CurrencyItem(currency);
     }
 
-    public List<CurrencyItem> getSelectableCurrencyList(List<String> list) {
+    public List<CurrencyItem> getCurrencyItemList(List<String> list) {
         List<CurrencyItem> selectableList = new ArrayList<>();
         for (String item : list) {
-            selectableList.add(getSelectableCurrencyListItem(item));
+            selectableList.add(getCurrencyItem(item));
         }
         return selectableList;
+    }
+
+    private CurrencyDbEntity getCurrencyDbItem(String currency) {
+        return new CurrencyDbEntity(currency);
+    }
+
+    private CurrencyItem getCurrencyItemFromDb(CurrencyDbEntity currency) {
+        return new CurrencyItem(currency.getName());
+    }
+
+    public List<CurrencyDbEntity> getCurrencyDbItemList(List<String> currencyList) {
+        List<CurrencyDbEntity> currencyDbEntityList = new ArrayList<>();
+        for (String item : currencyList) {
+            currencyDbEntityList.add(getCurrencyDbItem(item));
+        }
+        return currencyDbEntityList;
+    }
+
+    public List<CurrencyItem> getCurrencyItemListFromDb(List<CurrencyDbEntity> currencyList) {
+        List<CurrencyItem> currencyItems = new ArrayList<>();
+        for (CurrencyDbEntity item : currencyList) {
+            currencyItems.add(getCurrencyItemFromDb(item));
+        }
+        return currencyItems;
     }
 
     public PriceComparisonApiReq getComparisonReq(PriceComparisonReq req) {
@@ -138,5 +188,4 @@ public class CoinMapper {
         }
         return value;
     }
-
 }

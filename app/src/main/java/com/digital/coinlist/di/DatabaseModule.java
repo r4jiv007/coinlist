@@ -4,6 +4,7 @@ import android.content.Context;
 import androidx.room.Room;
 import com.digital.coinlist.data.database.CoinDao;
 import com.digital.coinlist.data.database.CoinDatabase;
+import com.digital.coinlist.data.database.CurrencyDao;
 import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;
@@ -24,5 +25,11 @@ public class DatabaseModule {
     @Provides
     public CoinDao providesCoinDao(CoinDatabase database) {
         return database.getCoinDao();
+    }
+
+
+    @Provides
+    public CurrencyDao providesCurrencyDao(CoinDatabase database) {
+        return database.getCurrencyDao();
     }
 }

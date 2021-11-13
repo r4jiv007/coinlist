@@ -8,7 +8,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import java.util.List;
 import javax.inject.Inject;
 
-public class GetCoinListUseCase extends BaseUseCase<Void, List<CoinItem>> {
+public class GetCoinListUseCase extends BaseUseCase<Boolean, List<CoinItem>> {
 
     private final CoinRepo coinRepo;
 
@@ -22,7 +22,7 @@ public class GetCoinListUseCase extends BaseUseCase<Void, List<CoinItem>> {
     }
 
     @Override
-    Single<List<CoinItem>> buildUseCaseSingle(Void unused) {
-        return coinRepo.getCoinList();
+    Single<List<CoinItem>> buildUseCaseSingle(Boolean req) {
+        return coinRepo.getCoinList(req);
     }
 }

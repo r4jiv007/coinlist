@@ -38,5 +38,6 @@ public abstract class BaseUseCase<REQ, RES> implements DisposableUseCase{
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
             .subscribeWith(observer);
+        compositeDisposable.add(lastDisposable);
     }
 }

@@ -15,9 +15,7 @@ import com.digital.coinlist.ui.main.adapter.Selectable;
 import com.digital.coinlist.util.rx.SchedulerProvider;
 import dagger.hilt.android.AndroidEntryPoint;
 import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.subjects.PublishSubject;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 
 @AndroidEntryPoint
@@ -31,8 +29,8 @@ public class CoinListFragment extends
     @Inject
     SchedulerProvider schedulerProvider;
 
-    private PublishSubject<String> searchSubjet = PublishSubject.create();
-    private TextWatcher searchTextWatcher = new TextWatcher() {
+
+    private final TextWatcher searchTextWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -40,7 +38,9 @@ public class CoinListFragment extends
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            searchSubjet.onNext(charSequence.toString());
+            viewModel
+                .searchItem(charSequence.toString(), CoinListFragmentArgs.fromBundle(getArguments())
+                    .getCurrencnyType());
         }
 
         @Override
@@ -79,12 +79,12 @@ public class CoinListFragment extends
         int titleId = -1;
         CurrencyType currencyType = CoinListFragmentArgs.fromBundle(getArguments())
             .getCurrencnyType();
-        if (currencyType==CurrencyType.CRYPTO_CURRENCY){
+        if (currencyType == CurrencyType.CRYPTO_CURRENCY) {
             titleId = R.string.select_crypto;
-        }else{
+        } else {
             titleId = R.string.select_currency;
         }
-        if(getActivity()!=null){
+        if (getActivity() != null) {
             getActivity().setTitle(titleId);
         }
     }
@@ -102,12 +102,12 @@ public class CoinListFragment extends
     }
 
     private void setUpSearch() {
-        disposable = searchSubjet
-            .debounce(300L, TimeUnit.MILLISECONDS)
-            .distinctUntilChanged()
-            .subscribeOn(schedulerProvider.io())
-            .observeOn(schedulerProvider.ui())
-            .subscribe(search -> listAdapter.getFilter().filter(search));
+//        disposable = searchSubject
+//            .debounce(300L, TimeUnit.MILLISECONDS)
+//            .distinctUntilChanged()
+//            .subscribeOn(schedulerProvider.io())
+//            .observeOn(schedulerProvider.ui())
+//            .subscribe(search -> listAdapter.getFilter().filter(search));
     }
 
     private void disposeSearch() {
@@ -171,14 +171,14 @@ public class CoinListFragment extends
         findNavController().popBackStack();
     }
 
-    private void handleError(){
+    private void handleError() {
         hideProgress();
         binding.rcvCoinList.setVisibility(View.GONE);
         CurrencyType currencyType = CoinListFragmentArgs.fromBundle(getArguments())
             .getCurrencnyType();
-        if(currencyType==CurrencyType.CRYPTO_CURRENCY){
+        if (currencyType == CurrencyType.CRYPTO_CURRENCY) {
             showError(getString(R.string.error_coin_list));
-        }else{
+        } else {
             showError(getString(R.string.error_currency_list));
         }
     }

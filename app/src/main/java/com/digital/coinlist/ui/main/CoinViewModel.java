@@ -11,6 +11,8 @@ import com.digital.coinlist.domain.entity.PriceItem;
 import com.digital.coinlist.domain.usecase.GetCoinListUseCase;
 import com.digital.coinlist.domain.usecase.GetCurrencyListUseCase;
 import com.digital.coinlist.domain.usecase.PriceCompareUseCase;
+import com.digital.coinlist.domain.usecase.SearchCoinUseCase;
+import com.digital.coinlist.domain.usecase.SearchCurrencyUseCase;
 import com.digital.coinlist.ui.base.BaseViewModel;
 import com.digital.coinlist.ui.base.CombinedLiveData;
 import com.digital.coinlist.ui.base.StateLiveData;
@@ -36,6 +38,8 @@ public class CoinViewModel extends BaseViewModel {
     private final GetCoinListUseCase getCoinListUseCase;
     private final GetCurrencyListUseCase getCurrencyListUseCase;
     private final PriceCompareUseCase priceCompareUseCase;
+    private final SearchCoinUseCase searchCoinUseCase;
+    private final SearchCurrencyUseCase searchCurrencyUseCase;
     private Disposable disposable;
     private final SchedulerProvider schedulerProvider;
 
@@ -65,13 +69,22 @@ public class CoinViewModel extends BaseViewModel {
         GetCoinListUseCase coinListUseCase,
         GetCurrencyListUseCase currencyListUseCase,
         PriceCompareUseCase priceCompareUseCase,
+        SearchCoinUseCase searchCoinUseCase,
+        SearchCurrencyUseCase searchCurrencyUseCase,
         SchedulerProvider schedulerProvider
     ) {
-        super(coinListUseCase, currencyListUseCase, priceCompareUseCase);
+        super(coinListUseCase,
+            currencyListUseCase,
+            priceCompareUseCase,
+            searchCoinUseCase,
+            searchCurrencyUseCase);
+
         this.getCoinListUseCase = coinListUseCase;
         this.getCurrencyListUseCase = currencyListUseCase;
         this.priceCompareUseCase = priceCompareUseCase;
         this.schedulerProvider = schedulerProvider;
+        this.searchCoinUseCase = searchCoinUseCase;
+        this.searchCurrencyUseCase = searchCurrencyUseCase;
     }
 
     public void loadItemList(CurrencyType currencyType) {
@@ -94,7 +107,7 @@ public class CoinViewModel extends BaseViewModel {
             public void onError(@NonNull Throwable error) {
                 coinListData.postError(error);
             }
-        }, null);
+        }, false);
     }
 
     private void getCurrencyList() {
@@ -111,7 +124,7 @@ public class CoinViewModel extends BaseViewModel {
                 public void onError(@NonNull Throwable error) {
                     coinListData.postError(error);
                 }
-            }, null);
+            }, false);
     }
 
     public void submitSelectableItem(CurrencyType currencyType, Selectable item) {
@@ -152,6 +165,58 @@ public class CoinViewModel extends BaseViewModel {
         }, new PriceComparisonReq(pair.first.getId(), pair.second.displayName()));
     }
 
+    public void searchItem(String search, CurrencyType currencyType) {
+        if (currencyType == CurrencyType.CRYPTO_CURRENCY) {
+            searchCoin(search);
+        } else {
+            searchCurrency(search);
+        }
+    }
+
+    public void searchCoin(String search) {
+        if (search == null || search.isEmpty()) {
+            getCoinList();
+        } else {
+            searchCryptoCoin(search);
+        }
+    }
+
+    private void searchCryptoCoin(String search) {
+        searchCoinUseCase.execute(new ResourceSingleObserver<List<CoinItem>>() {
+            @Override
+            public void onSuccess(@NonNull List<CoinItem> coinItems) {
+                coinListData.postSuccess(coinItems);
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+                coinListData.postError(e);
+            }
+        }, search);
+    }
+
+
+    private void searchCurrency(String search) {
+        if (search == null || search.isEmpty()) {
+            getCurrencyList();
+        } else {
+            searchCurrencyLocally(search);
+        }
+    }
+
+    private void searchCurrencyLocally(String search) {
+        searchCurrencyUseCase.execute(new ResourceSingleObserver<List<CurrencyItem>>() {
+            @Override
+            public void onSuccess(@NonNull List<CurrencyItem> coinItems) {
+                coinListData.postSuccess(coinItems);
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+                coinListData.postError(e);
+            }
+        }, search);
+    }
 
     private void startPeriodicUpdate() {
         if (disposable != null && !disposable.isDisposed()) {
