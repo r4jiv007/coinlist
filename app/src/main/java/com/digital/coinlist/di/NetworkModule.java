@@ -1,10 +1,8 @@
 package com.digital.coinlist.di;
 
 import android.app.Application;
-import com.digital.coinlist.BuildConfig;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.grapesnberries.curllogger.CurlLoggerInterceptor;
 import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;
@@ -39,9 +37,6 @@ public class NetworkModule {
     @Singleton
     public OkHttpClient provideOkhttpClient(Cache cache) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder().cache(cache);
-        if (BuildConfig.DEBUG) {
-            builder.addInterceptor(new CurlLoggerInterceptor());
-        }
         return builder.build();
     }
 

@@ -1,18 +1,30 @@
 package com.digital.coinlist.ui.main.price;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import com.digital.coinlist.R;
 import com.digital.coinlist.databinding.FragmentPriceBinding;
+import com.digital.coinlist.domain.entity.CoinItem;
+import com.digital.coinlist.domain.entity.CurrencyItem;
 import com.digital.coinlist.domain.entity.PriceItem;
 import com.digital.coinlist.ui.base.BaseFragment;
-import com.digital.coinlist.ui.main.CoinViewModel;
 import com.digital.coinlist.ui.main.list.CurrencyType;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class PriceFragment extends BaseFragment<FragmentPriceBinding, CoinViewModel> {
+public class PriceFragment extends BaseFragment<FragmentPriceBinding, PriceViewModel> {
+
+
+    public static final String COIN = "coin";
+    public static final String CURRENCY = "currency";
 
     @Override
     protected FragmentPriceBinding getBinding(LayoutInflater inflater) {
@@ -20,18 +32,57 @@ public class PriceFragment extends BaseFragment<FragmentPriceBinding, CoinViewMo
     }
 
     @Override
-    protected Class<CoinViewModel> getViewModelClass() {
-        return CoinViewModel.class;
+    protected Class<PriceViewModel> getViewModelClass() {
+        return PriceViewModel.class;
     }
 
     @Override
-    protected boolean createSharedViewModel() {
-        return true;
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        NavController navController = NavHostFragment.findNavController(this);
+        // We use a String here, but any type that can be put in a Bundle is supported
+        if (navController.getCurrentBackStackEntry() == null) {
+            return;
+        }
+        listenToCoinItemSelection();
+        listentoCurrencyItemSelection();
+
+    }
+
+    private void listenToCoinItemSelection() {
+        MutableLiveData<String> liveData = findNavController().getCurrentBackStackEntry()
+            .getSavedStateHandle()
+            .getLiveData(COIN);
+        liveData.observe(getViewLifecycleOwner(),
+            (Observer<Object>) coinItem -> {
+                CoinItem item = (CoinItem) coinItem;
+                viewModel.submitCoin(item);
+                binding.tvCrypto.setText(item.getName());
+            });
+    }
+
+    private void listentoCurrencyItemSelection() {
+        MutableLiveData<String> liveData = findNavController().getCurrentBackStackEntry()
+            .getSavedStateHandle()
+            .getLiveData(CURRENCY);
+        liveData.observe(getViewLifecycleOwner(),
+            (Observer<Object>) coinItem -> {
+                CurrencyItem item = (CurrencyItem) coinItem;
+                viewModel.submitCurrency(item);
+                binding.tvCurrency.setText(item.displayName());
+            });
     }
 
     @Override
-    protected int navGraphIdForViewModel() {
-        return R.id.coin_nav_graph;
+    public void onResume() {
+        super.onResume();
+        viewModel.startPeriodicUpdate();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        viewModel.stopPeriodicUpdate();
     }
 
     @Override
@@ -39,7 +90,7 @@ public class PriceFragment extends BaseFragment<FragmentPriceBinding, CoinViewMo
         binding.cvCrypto.setOnClickListener(view1 -> {
             Navigation.findNavController(view1)
                 .navigate(PriceFragmentDirections.gotoCoinListFragment(
-                    CurrencyType.CRYPTO_CURRENCY));
+                    CurrencyType.COIN));
         });
         binding.cvCurrency.setOnClickListener(view1 -> {
             Navigation.findNavController(view1)
@@ -54,12 +105,30 @@ public class PriceFragment extends BaseFragment<FragmentPriceBinding, CoinViewMo
     }
 
     @Override
-    protected void subscribeToViewModel(CoinViewModel viewModel) {
+    protected void subscribeToViewModel(PriceViewModel viewModel) {
+        viewModel.getUpdateLocalDataState().observe(this, dataUpdateState -> {
+            switch (dataUpdateState.getStatus()) {
+                case CREATED:
+                case COMPLETE:
+                    // to nothing
+                    break;
+                case SUCCESS:
+                case ERROR:
+                    // ignore result of data update
+                    // if failed, then data will be fetched in next screen
+                    hideProgress();
+                    break;
+                case LOADING:
+                    showProgress();
+                    break;
+            }
+        });
+
         viewModel.getPriceComparisonState().observe(this, priceItemUiState -> {
             switch (priceItemUiState.getStatus()) {
                 case CREATED:
                 case COMPLETE:
-                    // to nothing
+                    hideProgress();
                     break;
                 case SUCCESS:
                     hideProgress();
@@ -75,17 +144,6 @@ public class PriceFragment extends BaseFragment<FragmentPriceBinding, CoinViewMo
                     break;
             }
         });
-
-        viewModel.getCombinedLiveData().observe(this,
-            pair -> {
-                if (pair.first != null) {
-                    binding.tvCrypto.setText(pair.first.getName());
-                }
-                if (pair.second != null) {
-                    binding.tvCurrency.setText(pair.second.displayName());
-                }
-                viewModel.comparePrice(true, true);
-            });
     }
 
     private void handlePriceItem(PriceItem item) {

@@ -95,13 +95,9 @@ dependencies {
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
-    //for testing
-    implementation 'com.github.grapesnberries:curlloggerinterceptor:0.1'
 
     // database
-
     def room_version = "2.3.0"
-
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-common:$room_version"

@@ -23,7 +23,6 @@
     android:label="CoinListFragment"
     tools:layout="@layout/fragment_coin_list"
     >
-
     <argument
       android:name="currencnyType"
       app:argType="com.digital.coinlist.ui.main.list.CurrencyType" />

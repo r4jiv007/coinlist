@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavBackStackEntry;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.viewbinding.ViewBinding;
@@ -25,10 +24,6 @@ public abstract class BaseFragment<T extends ViewBinding, V extends BaseViewMode
 
     protected abstract Class<V> getViewModelClass();
 
-    protected abstract boolean createSharedViewModel();
-
-    protected abstract int navGraphIdForViewModel();
-
     protected abstract void setupView(View view);
 
     protected abstract void subscribeToViewModel(V viewModel);
@@ -36,11 +31,16 @@ public abstract class BaseFragment<T extends ViewBinding, V extends BaseViewMode
     protected V viewModel;
     protected T binding;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        createViewModel();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
         @Nullable Bundle savedInstanceState) {
-        createViewModel();
         binding = getBinding(getLayoutInflater());
         View view = binding.getRoot();
         setupView(view);
@@ -51,17 +51,7 @@ public abstract class BaseFragment<T extends ViewBinding, V extends BaseViewMode
         if (viewModel != null) {
             return;
         }
-        if (createSharedViewModel()) {
-            NavBackStackEntry backStackEntry = findNavController()
-                .getBackStackEntry(navGraphIdForViewModel());
-
-            viewModel = new ViewModelProvider(
-                backStackEntry,
-                getDefaultViewModelProviderFactory()).get(getViewModelClass()
-            );
-        } else {
-            viewModel = new ViewModelProvider(this).get(getViewModelClass());
-        }
+        viewModel = new ViewModelProvider(this).get(getViewModelClass());
         subscribeToViewModel(viewModel);
     }
 
@@ -106,7 +96,7 @@ public abstract class BaseFragment<T extends ViewBinding, V extends BaseViewMode
         if (error instanceof HttpException) {
             msg = error.getMessage();
         }
-        if(msg ==null){
+        if (msg == null) {
             msg = getString(R.string.generic_error);
         }
         Snackbar snackbar = Snackbar
@@ -114,7 +104,7 @@ public abstract class BaseFragment<T extends ViewBinding, V extends BaseViewMode
         snackbar.show();
     }
 
-    protected void showError(String msg){
+    protected void showError(String msg) {
         Snackbar snackbar = Snackbar
             .make(binding.getRoot(), msg, Snackbar.LENGTH_LONG);
         snackbar.show();

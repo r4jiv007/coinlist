@@ -1,4 +1,4 @@
-package com.digital.coinlist.data.database;
+package com.digital.coinlist.data.database.entity;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;

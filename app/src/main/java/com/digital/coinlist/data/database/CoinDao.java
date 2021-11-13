@@ -4,6 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import com.digital.coinlist.data.database.entity.CoinDbEntity;
 import io.reactivex.rxjava3.core.Single;
 import java.util.List;
 

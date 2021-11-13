@@ -1,7 +1,7 @@
 package com.digital.coinlist.data.mapper;
 
-import com.digital.coinlist.data.database.CoinDbEntity;
-import com.digital.coinlist.data.database.CurrencyDbEntity;
+import com.digital.coinlist.data.database.entity.CoinDbEntity;
+import com.digital.coinlist.data.database.entity.CurrencyDbEntity;
 import com.digital.coinlist.data.network.entity.CoinListItem;
 import com.digital.coinlist.data.network.entity.PriceComparisonApiReq;
 import com.digital.coinlist.domain.entity.CoinItem;

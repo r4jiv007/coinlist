@@ -1,6 +1,6 @@
 package com.digital.coinlist.ui.main.list;
 
 public enum CurrencyType {
-    CRYPTO_CURRENCY,
+    COIN,
     VS_CURRENCY
 }

@@ -1,5 +1,8 @@
 package com.digital.coinlist.ui.main.list;
 
+import static com.digital.coinlist.ui.main.price.PriceFragment.COIN;
+import static com.digital.coinlist.ui.main.price.PriceFragment.CURRENCY;
+
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -7,24 +10,23 @@ import android.view.View;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.digital.coinlist.R;
 import com.digital.coinlist.databinding.FragmentCoinListBinding;
+import com.digital.coinlist.domain.entity.CoinItem;
+import com.digital.coinlist.domain.entity.CurrencyItem;
 import com.digital.coinlist.ui.base.BaseFragment;
-import com.digital.coinlist.ui.main.CoinViewModel;
 import com.digital.coinlist.ui.main.adapter.CoinListAdapter;
 import com.digital.coinlist.ui.main.adapter.OnItemSelectionListener;
 import com.digital.coinlist.ui.main.adapter.Selectable;
 import com.digital.coinlist.util.rx.SchedulerProvider;
 import dagger.hilt.android.AndroidEntryPoint;
-import io.reactivex.rxjava3.disposables.Disposable;
 import java.util.ArrayList;
 import javax.inject.Inject;
 
 @AndroidEntryPoint
 public class CoinListFragment extends
-    BaseFragment<FragmentCoinListBinding, CoinViewModel> implements
+    BaseFragment<FragmentCoinListBinding, CoinListViewModel> implements
     OnItemSelectionListener {
 
     private CoinListAdapter listAdapter;
-    private Disposable disposable;
 
     @Inject
     SchedulerProvider schedulerProvider;
@@ -55,18 +57,8 @@ public class CoinListFragment extends
     }
 
     @Override
-    protected Class<CoinViewModel> getViewModelClass() {
-        return CoinViewModel.class;
-    }
-
-    @Override
-    protected boolean createSharedViewModel() {
-        return true;
-    }
-
-    @Override
-    protected int navGraphIdForViewModel() {
-        return R.id.coin_nav_graph;
+    protected Class<CoinListViewModel> getViewModelClass() {
+        return CoinListViewModel.class;
     }
 
     @Override
@@ -79,7 +71,7 @@ public class CoinListFragment extends
         int titleId = -1;
         CurrencyType currencyType = CoinListFragmentArgs.fromBundle(getArguments())
             .getCurrencnyType();
-        if (currencyType == CurrencyType.CRYPTO_CURRENCY) {
+        if (currencyType == CurrencyType.COIN) {
             titleId = R.string.select_crypto;
         } else {
             titleId = R.string.select_currency;
@@ -101,21 +93,6 @@ public class CoinListFragment extends
         binding.rcvCoinList.setAdapter(listAdapter);
     }
 
-    private void setUpSearch() {
-//        disposable = searchSubject
-//            .debounce(300L, TimeUnit.MILLISECONDS)
-//            .distinctUntilChanged()
-//            .subscribeOn(schedulerProvider.io())
-//            .observeOn(schedulerProvider.ui())
-//            .subscribe(search -> listAdapter.getFilter().filter(search));
-    }
-
-    private void disposeSearch() {
-        if (disposable != null && !disposable.isDisposed()) {
-            disposable.dispose();
-        }
-    }
-
     private void addTextWatcher() {
         binding.etItemSearch.addTextChangedListener(searchTextWatcher);
     }
@@ -128,18 +105,16 @@ public class CoinListFragment extends
     public void onResume() {
         super.onResume();
         addTextWatcher();
-        setUpSearch();
     }
 
     @Override
     public void onPause() {
         super.onPause();
         removeTextWatcher();
-        disposeSearch();
     }
 
     @Override
-    protected void subscribeToViewModel(CoinViewModel viewModel) {
+    protected void subscribeToViewModel(CoinListViewModel viewModel) {
         viewModel.getCoinListData().observe(this, coinListUiState -> {
             switch (coinListUiState.getStatus()) {
                 case CREATED:
@@ -159,7 +134,6 @@ public class CoinListFragment extends
                     break;
             }
         });
-
         loadData();
     }
 
@@ -167,6 +141,16 @@ public class CoinListFragment extends
     public void onItemSelected(Selectable item) {
         CurrencyType currencyType = CoinListFragmentArgs.fromBundle(getArguments())
             .getCurrencnyType();
+        if (findNavController().getPreviousBackStackEntry() == null) {
+            return;
+        }
+        if (currencyType == CurrencyType.COIN) {
+            findNavController().getPreviousBackStackEntry().getSavedStateHandle()
+                .set(COIN, (CoinItem) item);
+        } else {
+            findNavController().getPreviousBackStackEntry().getSavedStateHandle()
+                .set(CURRENCY, (CurrencyItem) item);
+        }
         viewModel.submitSelectableItem(currencyType, item);
         findNavController().popBackStack();
     }
@@ -176,7 +160,7 @@ public class CoinListFragment extends
         binding.rcvCoinList.setVisibility(View.GONE);
         CurrencyType currencyType = CoinListFragmentArgs.fromBundle(getArguments())
             .getCurrencnyType();
-        if (currencyType == CurrencyType.CRYPTO_CURRENCY) {
+        if (currencyType == CurrencyType.COIN) {
             showError(getString(R.string.error_coin_list));
         } else {
             showError(getString(R.string.error_currency_list));
