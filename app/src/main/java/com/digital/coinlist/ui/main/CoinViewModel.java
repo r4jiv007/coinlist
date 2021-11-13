@@ -147,6 +147,7 @@ public class CoinViewModel extends BaseViewModel {
             @Override
             public void onError(@NonNull Throwable error) {
                 priceComparisonState.postError(error);
+                stopPeriodicUpdate();
             }
         }, new PriceComparisonReq(pair.first.getId(), pair.second.displayName()));
     }

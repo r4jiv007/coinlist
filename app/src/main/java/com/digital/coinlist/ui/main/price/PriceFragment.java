@@ -48,7 +48,7 @@ public class PriceFragment extends BaseFragment<FragmentPriceBinding, CoinViewMo
         });
         binding.swipeLayout.setOnRefreshListener(() -> viewModel.refreshPrice());
 
-        if(getActivity()!=null){
+        if (getActivity() != null) {
             getActivity().setTitle(R.string.compare);
         }
     }
@@ -68,7 +68,7 @@ public class PriceFragment extends BaseFragment<FragmentPriceBinding, CoinViewMo
                     }
                     break;
                 case ERROR:
-                    hideProgress();
+                    handleError();
                     break;
                 case LOADING:
                     showProgress();
@@ -100,5 +100,10 @@ public class PriceFragment extends BaseFragment<FragmentPriceBinding, CoinViewMo
     protected void hideProgress() {
         super.hideProgress();
         binding.swipeLayout.setRefreshing(false);
+    }
+
+    private void handleError() {
+        hideProgress();
+        showError(getString(R.string.error_compare));
     }
 }

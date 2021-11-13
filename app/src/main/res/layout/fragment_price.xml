@@ -26,8 +26,8 @@
           android:id="@+id/tvCrypto"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:padding="@dimen/default_view_padding"
           android:drawableEnd="@drawable/ic_arrow"
+          android:padding="@dimen/default_view_padding"
           android:text="@string/select_crypto"
           android:textStyle="bold" />
       </androidx.cardview.widget.CardView>
@@ -52,13 +52,12 @@
           android:id="@+id/tvCurrency"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:padding="@dimen/default_view_padding"
           android:drawableEnd="@drawable/ic_arrow"
+          android:padding="@dimen/default_view_padding"
           android:text="@string/select_currency"
           android:textStyle="bold" />
 
       </androidx.cardview.widget.CardView>
-
 
       <androidx.cardview.widget.CardView
         android:id="@+id/cvComparison"
@@ -217,6 +216,32 @@
         </LinearLayout>
       </androidx.cardview.widget.CardView>
 
+      <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/note1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:layout_marginTop="@dimen/notes_margin"
+        android:gravity="start"
+        android:text="@string/note1" />
+
+      <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/note2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small_margin"
+        android:gravity="start"
+        android:textStyle="bold"
+        android:text="@string/note2" />
+
+      <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/note3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:layout_marginTop="@dimen/small_margin"
+        android:gravity="start"
+        android:text="@string/note3" />
     </LinearLayout>
   </ScrollView>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

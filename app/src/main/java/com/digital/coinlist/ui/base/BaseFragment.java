@@ -15,6 +15,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.viewbinding.ViewBinding;
 import com.digital.coinlist.R;
+import com.google.android.material.snackbar.Snackbar;
+import retrofit2.HttpException;
 
 public abstract class BaseFragment<T extends ViewBinding, V extends BaseViewModel> extends
     Fragment {
@@ -75,7 +77,7 @@ public abstract class BaseFragment<T extends ViewBinding, V extends BaseViewMode
             progressDialog = createProgressLoading(requireContext());
 
         }
-        if(progressDialog!=null && !progressDialog.isShowing()) {
+        if (progressDialog != null && !progressDialog.isShowing()) {
             progressDialog.show();
         }
 
@@ -97,5 +99,24 @@ public abstract class BaseFragment<T extends ViewBinding, V extends BaseViewMode
         builder.setView(view);
         builder.setCancelable(false);
         return builder.create();
+    }
+
+    protected void showError(Throwable error) {
+        String msg = null;
+        if (error instanceof HttpException) {
+            msg = error.getMessage();
+        }
+        if(msg ==null){
+            msg = getString(R.string.generic_error);
+        }
+        Snackbar snackbar = Snackbar
+            .make(binding.getRoot(), msg, Snackbar.LENGTH_LONG);
+        snackbar.show();
+    }
+
+    protected void showError(String msg){
+        Snackbar snackbar = Snackbar
+            .make(binding.getRoot(), msg, Snackbar.LENGTH_LONG);
+        snackbar.show();
     }
 }

@@ -13,4 +13,12 @@
   <string name="please_wait">Please Wait…</string>
   <string name="type_to_search">Type to search</string>
   <string name="compare">Compare coins</string>
+  <string name="generic_error">Something went wrong</string>
+  <string name="note1">* crytpo currency and vs_currency can be selected by clicking on respective labels </string>
+  <string name="note2">* comparison can be manually updated by swiping down to refresh</string>
+  <string name="note3">* periodic updates starts in interval of 10 secs after selecting the values</string>
+
+  <string name="error_compare">Something went wrong while comparison</string>
+  <string name="error_coin_list">Error fetching coin list</string>
+  <string name="error_currency_list">Error fetching currency list</string>
 </resources>

@@ -155,8 +155,7 @@ public class CoinListFragment extends
                     listAdapter.swapData(coinListUiState.getData());
                     break;
                 case ERROR:
-                    hideProgress();
-                    binding.rcvCoinList.setVisibility(View.GONE);
+                    handleError();
                     break;
             }
         });
@@ -172,4 +171,15 @@ public class CoinListFragment extends
         findNavController().popBackStack();
     }
 
+    private void handleError(){
+        hideProgress();
+        binding.rcvCoinList.setVisibility(View.GONE);
+        CurrencyType currencyType = CoinListFragmentArgs.fromBundle(getArguments())
+            .getCurrencnyType();
+        if(currencyType==CurrencyType.CRYPTO_CURRENCY){
+            showError(getString(R.string.error_coin_list));
+        }else{
+            showError(getString(R.string.error_currency_list));
+        }
+    }
 }

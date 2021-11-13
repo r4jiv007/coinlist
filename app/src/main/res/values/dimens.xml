@@ -2,6 +2,8 @@
 <resources>
 
   <dimen name="default_view_margin">16dp</dimen>
+  <dimen name="notes_margin">30dp</dimen>
+  <dimen name="small_margin">8dp</dimen>
   <dimen name="default_view_padding">16dp</dimen>
   <dimen name="default_text_padding">8dp</dimen>
   <dimen name="card_elevation">10dp</dimen>
