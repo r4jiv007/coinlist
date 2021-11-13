@@ -2,10 +2,10 @@ package com.digital.coinlist.data.mapper;
 
 import com.digital.coinlist.data.network.entity.CoinListItem;
 import com.digital.coinlist.data.network.entity.PriceComparisonApiReq;
-import com.digital.coinlist.domain.entity.PriceComparisonReq;
-import com.digital.coinlist.domain.entity.PriceItem;
 import com.digital.coinlist.domain.entity.CoinItem;
 import com.digital.coinlist.domain.entity.CurrencyItem;
+import com.digital.coinlist.domain.entity.PriceComparisonReq;
+import com.digital.coinlist.domain.entity.PriceItem;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -77,40 +77,27 @@ public class CoinMapper {
         Map<String, Map<String, Double>> comparisonResp
     ) {
         Map<String, Double> comparisonMap;
-        if (!comparisonResp.containsKey(req.getCryptoId())) {
+        String price = "NA", marketCap = "NA", _24hrVol = "NA", _24hrChange = "NA", lastUpdateDate = "NA";
+
+        if (!comparisonResp.containsKey(req.getCryptoId())
+            || comparisonResp.get(req.getCryptoId()) == null) {
             return new PriceItem(
                 req.getCryptoId(), req.getCurrencyId(),
-                "0", "0", "0", "0", "0");
+                price, marketCap, _24hrVol, _24hrChange, lastUpdateDate);
         }
-
-        comparisonMap = comparisonResp.get(req.getCryptoId());
-
-        String price = "0", marketCap = "0", _24hrVol = "0", _24hrChange = "0";
-        long lastUpdateAT = 0;
 
         final String marketCapKey = String.format("%s%s", req.getCurrencyId(), MARKET_CAP);
         final String volumeKey = String.format("%s%s", req.getCurrencyId(), _24HR_VOL);
         final String changeKey = String.format("%s%s", req.getCurrencyId(), _24HR_CHANGE);
-        final String lastUpdateKey = LAST_UPDATED_AT;
 
-        if (comparisonMap.containsKey(req.getCurrencyId())) {
-            price = String.format("%s %s",
-                numberFormat.format(comparisonMap.get(req.getCurrencyId())),
-                req.getCurrencyId());
-        }
+        comparisonMap = comparisonResp.get(req.getCryptoId());
 
-        if (comparisonMap.containsKey(marketCapKey)) {
-            marketCap = numberFormat.format(comparisonMap.get(marketCapKey));
-        }
-        if (comparisonMap.containsKey(volumeKey)) {
-            _24hrVol = numberFormat.format(comparisonMap.get(volumeKey));
-        }
-        if (comparisonMap.containsKey(changeKey)) {
-            _24hrChange = numberFormat.format(comparisonMap.get(changeKey));
-        }
-        if (comparisonMap.containsKey(lastUpdateKey)) {
-            lastUpdateAT = comparisonMap.get(lastUpdateKey).longValue();
-        }
+        price = getValue(req.getCurrencyId(), req.getCurrencyId(), comparisonMap);
+        marketCap = getValue(marketCapKey, "", comparisonMap);
+        _24hrVol = getValue(volumeKey, "", comparisonMap);
+        _24hrChange = getValue(changeKey, "", comparisonMap);
+        lastUpdateDate = getLastUpdatedAt(comparisonMap);
+
         return new PriceItem(
             req.getCryptoId()
             , req.getCurrencyId()
@@ -118,7 +105,38 @@ public class CoinMapper {
             , marketCap
             , _24hrVol
             , _24hrChange
-            , dateFormat.format(new Date(lastUpdateAT * MILLIS)));
+            , lastUpdateDate);
+    }
+
+
+    private String getValue(String itemKey, String optionalSuffix, Map<String, Double> priceMap) {
+        String value = "NA";
+        try {
+            if (priceMap.containsKey(itemKey)) {
+                value = String
+                    .format("%s %s", numberFormat.format(priceMap.get(itemKey)), optionalSuffix)
+                    .trim();
+            }
+        } catch (IllegalArgumentException | NullPointerException | ArithmeticException exception) {
+            value = "NA";
+        }
+        return value;
+    }
+
+
+    private String getLastUpdatedAt(Map<String, Double> priceMap) {
+        final String lastUpdateKey = LAST_UPDATED_AT;
+        String value = "NA";
+
+        try {
+            if (priceMap.containsKey(lastUpdateKey)) {
+                long lastUpdateAT = priceMap.get(lastUpdateKey).longValue();
+                value = dateFormat.format(new Date(lastUpdateAT * MILLIS));
+            }
+        } catch (IllegalArgumentException | NullPointerException e) {
+            value = "NA";
+        }
+        return value;
     }
 
 }

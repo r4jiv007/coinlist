@@ -12,5 +12,18 @@
     <!-- Status bar color. -->
     <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
     <!-- Customize your theme here. -->
+    <item name="actionBarTheme">@style/Theme.actionbar</item>
+  </style>
+
+  <style name="Theme.activity" parent="Theme.CoinList">
+    <item name="windowActionBar">true</item>
+    <item name="windowNoTitle">false</item>
+  </style>
+
+
+  <style name="Theme.actionbar" parent="@style/ThemeOverlay.MaterialComponents.ActionBar">
+    <item name="android:background">@color/purple_500</item>
+    <item name="android:elevation">0dp</item>
+    <item name="elevation">0dp</item>
   </style>
 </resources>
